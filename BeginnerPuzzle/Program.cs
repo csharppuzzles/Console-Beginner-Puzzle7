@@ -81,20 +81,32 @@ static void PuzzleA()
     Console.WriteLine("\nPuzzle A");
     Console.WriteLine("~~~~~~~~~");
 
-    string challenge = null;
+    string challenge = "You shall not pass!";
 
-    Console.WriteLine("Gandalf: 'You shall not pass!'...");
-
-    Console.WriteLine("Try and pass? y/n:");
-    string input = Console.ReadLine();
-
-    if(input.ToLower() == "y"){
-        string uppercaseInput = challenge.ToUpper();
-        Console.WriteLine($"{uppercaseInput} ");
-    }
-    else
+    try
     {
-        Console.WriteLine("Gandalf: 'Phew, I thought you were going to try and pass! Slow down!'...");
+        Console.WriteLine($"Gandalf: '{challenge}'...");
+
+        Console.WriteLine("Try and pass? y/n:");
+        string input = Console.ReadLine();
+
+        if (input.ToLower() == "y")
+        {
+            string uppercaseInput = challenge.ToUpper();
+            Console.WriteLine($"{uppercaseInput} ");
+        }
+        else
+        {
+            Console.WriteLine("Gandalf: 'Phew, I thought you were going to try and pass! Slow down!'...");
+        }
+    }
+    catch (NullReferenceException ex)
+    {
+        Console.WriteLine($"Null Error: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"General Error: {ex.Message}");
     }
 }
 
@@ -109,11 +121,21 @@ static void PuzzleB()
     Console.WriteLine("~~~~~~~~~");
 
     double input = 0;
+    try
+    {
+        Console.WriteLine("Enter a number with a floating point:");
+        input = Convert.ToDouble(Console.ReadLine());
 
-    Console.WriteLine("Enter a number with a floating point:");
-    input = Convert.ToInt32(Console.ReadLine());
-
-    Console.WriteLine(String.Format("Your number was {1}", input));
+        Console.WriteLine(String.Format("Your number was {0}", input));
+    }
+    catch (FormatException ex)
+    {
+        Console.WriteLine($"Format Error: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"General Error: {ex.Message}");
+    }
 }
 
 
@@ -128,19 +150,67 @@ static void PuzzleC()
     Console.WriteLine("\nPuzzle C");
     Console.WriteLine("~~~~~~~~~");
 
+    try
+    {
+        BigInteger billGatesBankBalance = BigInteger.Parse("79228162514264337593543950332");
+
+        int i = 0;
+        while (i < 5)
+        {
+            billGatesBankBalance = billGatesBankBalance + 1;
+
+            Console.WriteLine("Yo, we got another dollar from selling Word :-) +$1");
+            Console.WriteLine($"The bank balance is now: {billGatesBankBalance}");
+
+            i++;
+        }
+    }
+    catch (OverflowException ex)
+    {
+        Console.WriteLine($"Overflow Error: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"General Error: {ex.Message}");
+    }
+
+    //Alternative, use 2 accounts
+    /*
+    try
+    {
         decimal billGatesBankBalance = 79228162514264337593543950332m;
+        decimal billGatesBankBalance2 = 0;
 
         int i = 0;
         while (i < 5)
         {
 
-            billGatesBankBalance = billGatesBankBalance + 1;
-            
+            if ((billGatesBankBalance + 1) < decimal.MaxValue)
+            {
+                billGatesBankBalance = billGatesBankBalance + 1;
+            }
+            else
+            {
+                billGatesBankBalance2 = billGatesBankBalance2 + 1;
+            }
+
             Console.WriteLine("Yo, we got another dollar from selling Word :-) +$1");
             Console.WriteLine($"Bank balance 1 is now: ${billGatesBankBalance}");
+            Console.WriteLine($"Bank balance 2 is now: ${billGatesBankBalance2}");
 
             i++;
         }
+    }
+    catch (OverflowException ex)
+    {
+        Console.WriteLine($"Overflow Error: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"General Error: {ex.Message}");
+    }
+    */
+
 }
 
 
@@ -148,12 +218,12 @@ static void PuzzleC()
 
 // Run the puzzles
 
-ExampleA();
-ExampleB();
+//ExampleA();
+//ExampleB();
 
-//PuzzleA();
-//PuzzleB();
-//PuzzleC();
+PuzzleA();
+PuzzleB();
+PuzzleC();
 
 
 
